@@ -1,7 +1,7 @@
-import { connection } from '../database';
-import { IUser } from '../database/models/user.model';
+import { connection } from '../index';
+import { IUser } from '../models/user.model';
 
-import { IAuthRepository } from '../api/auth/interfaces';
+import { IAuthRepository } from '../../api/auth/interfaces';
 
 export class AuthRepository implements IAuthRepository {
     async createUser(user: IUser) {

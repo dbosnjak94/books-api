@@ -3,7 +3,7 @@
 import {Request, Response, NextFunction} from "express";
 
 import {AuthService} from "./service";
-import {AuthRepository} from '../../repositories/auth.repository';
+import {AuthRepository} from '../../database/repositories/auth.repository';
 import {IAuthController, IAuthService, IAuthRepository} from "./interfaces";
 import {UserDto} from '../../dto/user.dto';
 
