@@ -18,7 +18,7 @@ export interface IUserService {
 export interface IUserRepository {
     addUser(user: IUser): Promise<IUser | null>;
     editUser(user: IUser): Promise<IUser| null>;
-    deleteUser(user: IUser);
+    deleteUser(id_user);
     getUserByEmail(email): Promise<IUser | null>;
     getUserById(id_user): Promise<IUser | null>;
 }

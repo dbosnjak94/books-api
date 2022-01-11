@@ -10,5 +10,7 @@ const router = express.Router()
 const userController: IUserController = new UserController();
 
 router.post('/addUser', authenticate, userController.addUser);
-router.post('/editUser', authenticate, userController.editUser);
+router.put('/editUser', authenticate, userController.editUser);
 router.delete('/deleteUser',authenticate, userController.deleteUser);
+
+export default router;

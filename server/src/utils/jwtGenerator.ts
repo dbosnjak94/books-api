@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { IUser } from '../database/models/user.model';
 
 export const generateToken = (user: IUser) => {
+    console.log(user);
     try {
         const secret = 'SecretKey';
         const token = jwt.sign(

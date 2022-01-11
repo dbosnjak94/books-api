@@ -1,17 +1,15 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 
 import { UserDto } from '../../dto/user.dto';
 import { IAuthRepository, IAuthService } from './interfaces';
-
 import { hashPassword, comparePassword } from '../../utils/bcrypt';
 import { generateToken } from '../../utils/jwtGenerator';
-
 import { IUser } from '../../database/models/user.model';
 
 export class AuthService implements IAuthService {
     constructor(private authRepository: IAuthRepository) {}
 
-    async signUp(req: Request): Promise<UserDto> {
+    async signUp(req: Request, res: Response): Promise<UserDto> {
         try {
             let { first_name, last_name, email, password } = req.body;
             password = await hashPassword(password);
@@ -33,7 +31,7 @@ export class AuthService implements IAuthService {
             const userInfo: IUser = await this.authRepository.getUserByEmail(email);
 
             delete userInfo.password;
-            const jwt = generateToken(user);
+            const jwt = generateToken(userInfo);
 
             if(!jwt) {
                 return {
@@ -42,7 +40,7 @@ export class AuthService implements IAuthService {
             }
 
             return {
-                data: user,
+                data: userInfo,
                 token: jwt.toString(),
                 message: 'New user has been created'
             };
@@ -52,7 +50,7 @@ export class AuthService implements IAuthService {
 
     }
 
-    async signIn(req: Request): Promise<UserDto> {
+    async signIn(req: Request, res: Response): Promise<UserDto> {
         try {
             let { email, password } = req.body;
 

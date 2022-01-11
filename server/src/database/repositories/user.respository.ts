@@ -14,14 +14,15 @@ export class UserRepository implements IUserRepository {
     async getUserByEmail(email: string) {
         const result: any[] = await connection.query(`SELECT * FROM user WHERE email = ?`, email);
 
-        return result.length ? result[0] : false;
+        console.log(result);
+        return result[0].length ? result[0] : false;
     }
 
     async addUser(user: IUser): Promise<IUser | null> {
         await connection.query(
-            `INSERT INTO user (role, first_name, last_name, email, password, created_at)
-                    VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP());`,
-            [user.id_role, user.first_name, user.last_name, user.email, user.password]
+            `INSERT INTO user (id_role, first_name, last_name, email, password, created_at)
+                    VALUES (2, ?, ?, ?, ?, CURRENT_TIMESTAMP());`,
+            [user.first_name, user.last_name, user.email, user.password]
         );
 
         const result: any[] = await connection.query(`SELECT * FROM user WHERE email = ?`, user.email);
@@ -36,13 +37,12 @@ export class UserRepository implements IUserRepository {
                     first_name = ?,
                     last_name = ?,
                     email = ?,
-                    password = ?,
                     updated_at = CURRENT_TIMESTAMP()
-                    WHERE condition id_user = ?;`,
+                    WHERE id_user = ?;`,
             [user.first_name, user.last_name, user.email, user.id_user]
         );
 
-        return result ? result[0] : false;
+        return result.length ? result[0].affectedRows : false;
     }
 
     async deleteUser(user: IUser) {
@@ -51,6 +51,7 @@ export class UserRepository implements IUserRepository {
             [user.id_user]
         );
 
+        console.log(user.id_user);
         return result ? result[0] : false;
     }
 }

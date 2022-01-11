@@ -4,5 +4,4 @@ export class UserDto {
     data?: IUser;
     token?: string;
     message?: string;
-    updated?: string;
 }

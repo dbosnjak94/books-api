@@ -2,10 +2,10 @@
 
 import {Request, Response, NextFunction} from "express";
 
-import {UserService} from "./service";
-import {AuthRepository} from "../../database/repositories/user.repository";
+import {UserRepository} from "../../database/repositories/user.respository";
 import {IUserController, IUserRepository, IUserService} from "./interfaces";
 import {UserDto} from '../../dto/user.dto';
+import {UserService} from "./service";
 
 const userRepository: IUserRepository = new UserRepository();
 
@@ -38,5 +38,4 @@ export class UserController implements IUserController {
             return err.message;
         }
     }
-
 }
