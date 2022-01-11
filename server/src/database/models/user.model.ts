@@ -1,6 +1,6 @@
 export interface IUser {
     id_user?: number;
-    role?: string;
+    id_role?: string;
     first_name: string;
     last_name: string;
     email: string;

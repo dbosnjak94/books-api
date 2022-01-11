@@ -9,7 +9,7 @@ const generateToken = (user: IUser) => {
             {
                 data: {
                     id_user: user.id_user,
-                    role: user.role
+                    role: user.id_role
                 }
             },
             secret

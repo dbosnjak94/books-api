@@ -13,14 +13,9 @@ const authService: IAuthService = new AuthService(authRepository);
 
 export class AuthController implements IAuthController {
     async signUp(req: Request, res: Response, next: NextFunction): Promise<UserDto> {
-
         try {
-            console.log("tu sam!!!!!");
-
             let user: UserDto = await authService.signUp(req, res);
-
-            console.log(user);
-            return res.json(user.message);
+            return res.json(user);
         } catch (err) {
             return err.message;
         }

@@ -6,8 +6,8 @@ import { IAuthRepository } from '../api/auth/interfaces';
 export class AuthRepository implements IAuthRepository {
     async createUser(user: IUser) {
         await connection.query(
-            `INSERT INTO user (role, first_name, last_name, email, password, created_at)
-                    VALUES ('attendee', ?, ?, ?, ?, CURRENT_TIMESTAMP());`,
+            `INSERT INTO user (id_role, first_name, last_name, email, password, created_at)
+                    VALUES (2, ?, ?, ?, ?, CURRENT_TIMESTAMP());`,
             [user.first_name, user.last_name, user.email, user.password]
         );
 
