@@ -149,7 +149,126 @@ const paths = {
             },
             produces: ['application/json']
         }
-    }
+    },
+    '/book/addBook': {
+        post: {
+            summary: 'New book registration',
+            tags: ['Book'],
+            parameters: [
+                {
+                    name: 'Add book',
+                    in: 'body',
+                    description: 'Book add model',
+                    required: true,
+                    schema: {
+                        $ref: '#/definitions/addBook'
+                    }
+                }
+            ],
+            responses: {
+                '200': {
+                    description: 'User Registered and Auth Token granted',
+                    schema: {
+                        $ref: '#/responses/addBook'
+                    }
+                }
+            },
+            produces: ['application/json']
+        }
+    },
+    '/book/editBook': {
+        put: {
+            summary: 'Edit book profile',
+            tags: ['Book'],
+            parameters: [
+                {
+                    name: 'book_body',
+                    in: 'body',
+                    description: 'Book edit model',
+                    required: true,
+                    schema: {
+                        $ref: '#/definitions/editBook'
+                    }
+                }
+            ],
+            responses: {
+                '200': {
+                    description: 'Book profile edited',
+                    schema: {
+                        $ref: '#/responses/editBook'
+                    }
+                }
+            },
+            produces: ['application/json']
+        }
+    },
+    '/book/deleteBook': {
+        delete: {
+            summary: 'Remove the book from the database',
+            tags: ['Book'],
+            parameters: [
+                {
+                    name: 'id_book',
+                    in: 'body',
+                    description: 'Book ID',
+                    required: true,
+                    schema: {
+                        $ref: '#/definitions/deleteBook'
+                    }
+                }
+            ],
+            responses: {
+                '200': {
+                    description: 'Book has been deleted',
+                    schema: {
+                        $ref: '#/responses/deleteBook'
+                    }
+                }
+            },
+            produces: ['application/json']
+        }
+    },
+    '/book/getAllBooksAndAuthors': {
+        get: {
+            summary: 'Get list of all books and thier authors',
+            tags: ['Book'],
+            responses: {
+                '200': {
+                    description: 'List of Books and their authors',
+                    schema: {
+                        $ref: '#/responses/getAllBooksAndAuthors'
+                    }
+                }
+            },
+            produces: ['application/json']
+        }
+    },
+    '/book/getBooksByAuthor': {
+        get: {
+            summary: 'Get list of all books by author',
+            tags: ['Book'],
+            parameters: [
+                {
+                    name: 'author_id',
+                    in: 'body',
+                    description: 'Author ID',
+                    required: true,
+                    schema: {
+                        $ref: '#/definitions/getBooksByAuthor'
+                    }
+                }
+            ],
+            responses: {
+                '200': {
+                    description: 'List of Books by author',
+                    schema: {
+                        $ref: '#/responses/getBooksByAuthor'
+                    }
+                }
+            },
+            produces: ['application/json']
+        }
+    },
 }
 
 const definitions = {
@@ -184,6 +303,28 @@ const definitions = {
         }
     },
     deleteUser: {
+        example: {
+            id_user: 1,
+        }
+    },
+    addBook: {
+        example: {
+            id_user: 2,
+            book_name: "Sharknado 12 - The Sorrows of Young Shark "
+        }
+    },
+    editBook: {
+        example: {
+            id_book: 1,
+            book_name: 'Witcher - Time of Contempt'
+        }
+    },
+    deleteBook: {
+        example: {
+            id_book: 1,
+        }
+    },
+    getBooksByAuthor: {
         example: {
             id_user: 1,
         }
