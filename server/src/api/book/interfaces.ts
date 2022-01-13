@@ -15,10 +15,12 @@ export interface IBookService {
 }
 
 export interface IBookRepository {
-    addBook(book: IBook): Promise<BookDto>;
-    editBook(book: IBook): Promise<BookDto>;
+    addBook(book: IBook): Promise<IBook>;
+    editBook(book: IBook): Promise<IBook>;
     deleteBook(id_book);
     getBookById(id_book): Promise<IBook>;
+    getAllBooksAndAuthors(): Promise<IListOfBooks>;
+    getBooksByAuthor(id_user);
 }
 
 

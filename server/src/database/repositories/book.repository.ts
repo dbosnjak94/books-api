@@ -4,19 +4,18 @@ import {BookDto} from "../../dto/book.dto";
 import {connection} from "../index";
 
 export class BookRepository implements IBookRepository {
-    async addBook(book: IBook): Promise<BookDto> {
+    async addBook(book: IBook): Promise<IBook> {
         await connection.query(
             `INSERT INTO book (id_user, book_name, created_at)
                     VALUES (?, ?, CURRENT_TIMESTAMP());`,
             [book.id_user, book.book_name]
         );
 
-        const result: any[] = await connection.query(`SELECT * FROM book WHERE email = ?`, book.id_book);
-
+        const result: any[] = await connection.query(`SELECT * FROM book WHERE book_name = ?;`, book.book_name);
         return result.length ? result[0] : false;
     }
 
-    async editBook(book: IBook): Promise<BookDto> {
+    async editBook(book: IBook): Promise<IBook> {
         let result: any[] = await connection.query(
             `UPDATE book
                     SET book_name = ?, 

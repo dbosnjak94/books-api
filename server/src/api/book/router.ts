@@ -9,8 +9,8 @@ const router = express.Router()
 
 const bookController: IBookController = new BookController();
 
-router.post('/addBook', authenticate, bookController.addBook);
-router.put('/editBook', authenticate, bookController.editBook);
-router.delete('/deleteBook',authenticate, bookController.deleteBook);
+router.post('/addBook', bookController.addBook);
+router.put('/editBook', bookController.editBook);
+router.delete('/deleteBook', bookController.deleteBook);
 
 export default router;

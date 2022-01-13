@@ -150,7 +150,7 @@ const paths = {
             produces: ['application/json']
         }
     },
-    '/user/addBook': {
+    '/book/addBook': {
         post: {
             summary: 'New book registration',
             tags: ['Book'],
@@ -201,7 +201,33 @@ const paths = {
             },
             produces: ['application/json']
         }
-    }
+    },
+    '/book/deleteBook': {
+        delete: {
+            summary: 'Remove the book from the database',
+            tags: ['Book'],
+            parameters: [
+                {
+                    name: 'id_book',
+                    in: 'body',
+                    description: 'Book ID',
+                    required: true,
+                    schema: {
+                        $ref: '#/definitions/deleteBook'
+                    }
+                }
+            ],
+            responses: {
+                '200': {
+                    description: 'Book has been deleted',
+                    schema: {
+                        $ref: '#/responses/deleteBook'
+                    }
+                }
+            },
+            produces: ['application/json']
+        }
+    },
 }
 
 const definitions = {

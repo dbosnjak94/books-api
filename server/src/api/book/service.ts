@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import {IBookRepository, IBookService} from '../book/interfaces';
 import {BookDto} from '../../dto/book.dto';
+import {IBook} from "../../database/models/book.model";
 
 
 export class BookService implements IBookService {
@@ -9,9 +10,9 @@ export class BookService implements IBookService {
     async addBook(req: Request, res: Response): Promise<BookDto> {
         try {
             let {id_user, book_name} = req.body;
-            let book = await this.bookRepository.addBook({id_user, book_name});
+            let book: IBook= await this.bookRepository.addBook({id_user, book_name});
             return {
-                data: book.data,
+                data: book,
                 message: "New Book has been inserted to the database"
             }
 
@@ -29,8 +30,8 @@ export class BookService implements IBookService {
             let book = await this.bookRepository.editBook({id_book, book_name});
 
             return {
-                data: book.data,
-                message: book.message
+                data: book,
+                message: "Book profile has been updated"
             }
 
         } catch (err) {
@@ -44,7 +45,13 @@ export class BookService implements IBookService {
         try {
             let {id_book} = req.body;
 
-            await this.bookRepository.deleteBook({id_book});
+            let deletedBook = await this.bookRepository.deleteBook({id_book});
+
+            if(!deletedBook) {
+                return {
+                    message: "Book cannot be deleted from the database"
+                }
+            }
 
             return {
                 message: "Book has been deleted from the database"
