@@ -5,6 +5,13 @@ export interface IBook {
 }
 
 export interface IListOfBooks {
-    listOfBooks: any[];
-    message: string;
+    id_book?: number,
+    book_name: string
+}
+
+export interface IListOfBooksAndAuthors {
+    id_book: number,
+    first_name: string,
+    last_name: string,
+    book_name: number
 }

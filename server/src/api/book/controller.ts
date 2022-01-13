@@ -6,6 +6,7 @@ import {BookRepository} from "../../database/repositories/book.repository";
 import {IBookController, IBookRepository, IBookService} from "./interfaces";
 import {BookDto} from '../../dto/book.dto';
 import {BookService} from "./service";
+import {IListOfBooks, IListOfBooksAndAuthors} from "../../database/models/book.model";
 
 const bookRepository: IBookRepository = new BookRepository();
 
@@ -38,4 +39,21 @@ export class BookController implements IBookController {
             return err.message;
         }
     }
+
+    async getAllBooksAndAuthors(req: Request, res: Response, next: NextFunction): Promise<IListOfBooksAndAuthors> {
+        try {
+            let listOfBookAndAuthors = await bookService.getAllBooksAndAuthors(req, res);
+            return res.json(listOfBookAndAuthors);
+        } catch (err) {
+            return err.message;
+        }
+    };
+    async getBooksByAuthor(req: Request, res: Response, next: NextFunction): Promise<IListOfBooks> {
+        try {
+            let listOfBooks = await bookService.getBooksByAuthor(req, res);
+            return res.json(listOfBooks);
+        } catch (err) {
+            return err.message;
+        }
+    };
 }

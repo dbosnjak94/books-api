@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import {IBookRepository, IBookService} from '../book/interfaces';
 import {BookDto} from '../../dto/book.dto';
-import {IBook} from "../../database/models/book.model";
+import {IBook, IListOfBooks, IListOfBooksAndAuthors} from "../../database/models/book.model";
 
 
 export class BookService implements IBookService {
@@ -59,6 +59,39 @@ export class BookService implements IBookService {
 
         } catch (err) {
             return {
+                message: err.message
+            }
+        }
+    }
+
+    async getAllBooksAndAuthors(req: Request, res: Response): Promise<[IListOfBooksAndAuthors]> {
+        try {
+            let listOfBooksAndAuthors = await this.bookRepository.getAllBooksAndAuthors();
+
+            return {
+                listOfBooksAndAuthors
+            }
+        } catch (err) {
+            return {
+                data: null,
+                message: err.message
+            }
+        }
+    }
+
+    async getBooksByAuthor(req: Request, res: Response): Promise<[IListOfBooks]> {
+        try {
+            let {id_user} = req.body
+
+            let listOfBooks = await this.bookRepository.getBooksByAuthor(id_user);
+
+            return {
+                data: listOfBooks,
+                message: "List of books by author"
+            }
+        } catch (err) {
+            return {
+                data: null,
                 message: err.message
             }
         }

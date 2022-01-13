@@ -228,6 +228,47 @@ const paths = {
             produces: ['application/json']
         }
     },
+    '/book/getAllBooksAndAuthors': {
+        get: {
+            summary: 'Get list of all books and thier authors',
+            tags: ['Book'],
+            responses: {
+                '200': {
+                    description: 'List of Books and their authors',
+                    schema: {
+                        $ref: '#/responses/getAllBooksAndAuthors'
+                    }
+                }
+            },
+            produces: ['application/json']
+        }
+    },
+    '/book/getBooksByAuthor': {
+        get: {
+            summary: 'Get list of all books by author',
+            tags: ['Book'],
+            parameters: [
+                {
+                    name: 'author_id',
+                    in: 'body',
+                    description: 'Author ID',
+                    required: true,
+                    schema: {
+                        $ref: '#/definitions/getBooksByAuthor'
+                    }
+                }
+            ],
+            responses: {
+                '200': {
+                    description: 'List of Books by author',
+                    schema: {
+                        $ref: '#/responses/getBooksByAuthor'
+                    }
+                }
+            },
+            produces: ['application/json']
+        }
+    },
 }
 
 const definitions = {
@@ -281,6 +322,11 @@ const definitions = {
     deleteBook: {
         example: {
             id_book: 1,
+        }
+    },
+    getBooksByAuthor: {
+        example: {
+            id_user: 1,
         }
     }
 }
