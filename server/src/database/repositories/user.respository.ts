@@ -1,7 +1,6 @@
 import {connection} from "../index";
 import {IUser} from '../models/user.model';
 import {IUserRepository} from '../../api/user/interfaces';
-import {UserDto} from "../../dto/user.dto";
 
 export class UserRepository implements IUserRepository {
 
@@ -51,7 +50,6 @@ export class UserRepository implements IUserRepository {
             [user.id_user]
         );
 
-        console.log(user.id_user);
         return result ? result[0] : false;
     }
 }

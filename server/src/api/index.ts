@@ -6,11 +6,13 @@ import { generateDocumentation } from '../../swagger';
 
 import auth from './auth/router';
 import user from './user/router';
+import book from './book/router';
 
 const router = express.Router();
 router.use('/', swaggerUI.serve);
 router.use('/auth', auth);
 router.use('/user', user);
+router.use('/book', book);
 
 const documentation = generateDocumentation();
 router.get('/api-docs', swaggerUI.setup(documentation));

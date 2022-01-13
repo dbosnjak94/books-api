@@ -149,6 +149,58 @@ const paths = {
             },
             produces: ['application/json']
         }
+    },
+    '/user/addBook': {
+        post: {
+            summary: 'New book registration',
+            tags: ['Book'],
+            parameters: [
+                {
+                    name: 'Add book',
+                    in: 'body',
+                    description: 'Book add model',
+                    required: true,
+                    schema: {
+                        $ref: '#/definitions/addBook'
+                    }
+                }
+            ],
+            responses: {
+                '200': {
+                    description: 'User Registered and Auth Token granted',
+                    schema: {
+                        $ref: '#/responses/addBook'
+                    }
+                }
+            },
+            produces: ['application/json']
+        }
+    },
+    '/book/editBook': {
+        put: {
+            summary: 'Edit book profile',
+            tags: ['Book'],
+            parameters: [
+                {
+                    name: 'book_body',
+                    in: 'body',
+                    description: 'Book edit model',
+                    required: true,
+                    schema: {
+                        $ref: '#/definitions/editBook'
+                    }
+                }
+            ],
+            responses: {
+                '200': {
+                    description: 'Book profile edited',
+                    schema: {
+                        $ref: '#/responses/editBook'
+                    }
+                }
+            },
+            produces: ['application/json']
+        }
     }
 }
 
@@ -186,6 +238,23 @@ const definitions = {
     deleteUser: {
         example: {
             id_user: 1,
+        }
+    },
+    addBook: {
+        example: {
+            id_user: 2,
+            book_name: "Sharknado 12 - The Sorrows of Young Shark "
+        }
+    },
+    editBook: {
+        example: {
+            id_book: 1,
+            book_name: 'Witcher - Time of Contempt'
+        }
+    },
+    deleteBook: {
+        example: {
+            id_book: 1,
         }
     }
 }

@@ -8,13 +8,13 @@ export interface IBookController {
     deleteBook(req: Request, res: Response, next: NextFunction): Promise<BookDto>;
 }
 
-export interface IBookSerivce {
+export interface IBookService {
     addBook(req: Request, res: Response): Promise<BookDto>;
     editBook(req: Request, res: Response): Promise<BookDto>;
     deleteBook(req: Request, res: Response): Promise<BookDto>;
 }
 
-export interface IBookRespository {
+export interface IBookRepository {
     addBook(book: IBook): Promise<BookDto>;
     editBook(book: IBook): Promise<BookDto>;
     deleteBook(id_book);
