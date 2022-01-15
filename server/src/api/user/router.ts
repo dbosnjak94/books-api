@@ -12,5 +12,6 @@ const userController: IUserController = new UserController();
 router.post('/addUser', authenticate, userController.addUser);
 router.put('/editUser', authenticate, userController.editUser);
 router.delete('/deleteUser',authenticate, userController.deleteUser);
+router.get('/getAllUsers', authenticate, userController.getAllUsers);
 
 export default router;

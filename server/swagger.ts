@@ -150,6 +150,30 @@ const paths = {
             produces: ['application/json']
         }
     },
+    '/user/getAllUsers': {
+        get: {
+            summary: 'Get list of all authors',
+            tags: ['User'],
+            parameters: [
+                {
+                    name: 'jwt',
+                    in: 'header',
+                    descriprion: 'JWT',
+                    required: true,
+                    type: 'string'
+                }
+            ],
+            responses: {
+                '200': {
+                    description: 'List of Books and their authors',
+                    schema: {
+                        $ref: '#/responses/getAllUsers'
+                    }
+                }
+            },
+            produces: ['application/json']
+        }
+    },
     '/book/addBook': {
         post: {
             summary: 'New book registration',

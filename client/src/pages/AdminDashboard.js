@@ -1,63 +1,148 @@
-import NavigationBar from "../layouts/header/NavigationBar";
+import NavigationBar from "../layouts/header/NavigationBar"
 import * as ReactBootStrap from "react-bootstrap"
-import {Button} from "react-bootstrap";
+import { Button, Row, Col, Form } from "react-bootstrap"
+import axios from "axios"
 
-const AdminDashboard = () =>{
+import styles from "../assets/styles/adminDashboard.module.css"
+import React, { useState, useEffect } from "react"
+import { AuthorEditDialog } from "./AuthorEditDialog"
 
-        const list = [
+const AdminDashboard = () => {
+    const [listOfAuthors, setListOfAuthors] = useState([])
+    const [editDialogState, setEditDialogState] = useState({
+        isOpen: false,
+        selected: {},
+    })
+
+    const jwt = localStorage.getItem("jwt")
+    axios.defaults.headers.jwt = jwt
+
+    const getAllAuthors = async () => {
+        const response = await axios
+            .get("http://localhost:3001/api/user/getAllUsers", {
+                headers: {
+                    jwt: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkX3VzZXIiOjEsInJvbGUiOjF9LCJpYXQiOjE2NDIxMDgzOTR9.xBa0HSNwRXyfZgQH0AtPdp20TXALuSSts-wyE9GSHXk",
+                },
+            })
+            .then((response) => {
+                setListOfAuthors(response.data.data)
+            })
+            .catch(function (err) {
+                console.log(err.message)
+            })
+    }
+
+    useEffect(() => {
+        getAllAuthors()
+    }, [])
+
+    const onEditClose = () => {
+        setEditDialogState({
+            isOpen: false,
+            selected: {},
+        })
+    }
+
+    const deleteAuthor = (data) => {
+        axios
+            .delete(
+                "http://localhost:3001/api/user/deleteUser",
                 {
-                        book_name: "book1",
-                        first_name: "name1",
-                        last_name: "name1"
+                    data: {
+                        id_user: data.id_user,
+                    },
                 },
                 {
-                        book_name: "book2",
-                        first_name: "name2",
-                        last_name: "name2"
-                },
-                {
-                        book_name: "book3",
-                        first_name: "name3",
-                        last_name: "name3"
-                },
-                {
-                        book_name: "book4",
-                        first_name: "name4",
-                        last_name: "name4"
-                },
-        ]
+                    headers: {
+                        "Content-Type": "application/json;charset=UTF-8",
+                    },
+                }
+            )
+            .then((response) => {
+                console.log(response)
+                window.location.reload(false)
+            })
+            .catch(function (err) {
+                alert(err.message)
+            })
+    }
 
-        const renderList = (book, index) => {
-                return (
-                    <tr key={index}>
-                            <td>{book.book_name}</td>
-                            <td>{book.first_name}</td>
-                            <td>{book.last_name}</td>
-                            <td><Button>Edit</Button></td>
-                            <td><Button variant="danger">Delete</Button></td>
-                    </tr>
-                )
-        }
-
-        return <div>
-                <NavigationBar/>
-                <h1>Hello Admin</h1>
-                <ReactBootStrap.Table striped bordered hover variant="light">
-                        <thead>
-                        <tr>
-                                <th>Book Name</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th></th>
-                                <th></th>
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {list.map(renderList)}
-                        </tbody>
-                </ReactBootStrap.Table>
-        </div>;
+    return (
+        <>
+            <div className={styles.adminDashboard}>
+                <NavigationBar />
+                <Row>
+                    <Col xs={8} md={8} className={styles.list}>
+                        <h1 className={styles.text}>List of Authors</h1>
+                        <ReactBootStrap.Table
+                            striped
+                            bordered
+                            hover
+                            variant="light"
+                        >
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {listOfAuthors.map((author, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{author.id_user}</td>
+                                            <td>
+                                                <p>{author.first_name}</p>
+                                            </td>
+                                            <td>
+                                                <p>{author.last_name}</p>
+                                            </td>
+                                            <td>{author.email}</td>
+                                            <td>
+                                                <Button
+                                                    onClick={() =>
+                                                        setEditDialogState({
+                                                            isOpen: true,
+                                                            selected: author,
+                                                        })
+                                                    }
+                                                >
+                                                    Edit
+                                                </Button>
+                                                <Button
+                                                    variant="danger"
+                                                    onClick={() =>
+                                                        deleteAuthor(author)
+                                                    }
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </ReactBootStrap.Table>
+                    </Col>
+                    <Col xs={4} md={4}>
+                        <h1 className={styles.text}>Add User</h1>
+                        {/*// TODO: add register*/}
+                    </Col>
+                </Row>
+            </div>
+            {editDialogState.isOpen ? (
+                <AuthorEditDialog
+                    isOpen={editDialogState.isOpen}
+                    value={editDialogState.selected}
+                    onClose={onEditClose}
+                />
+            ) : null}
+        </>
+    )
 }
 
-export default AdminDashboard;
+export default AdminDashboard

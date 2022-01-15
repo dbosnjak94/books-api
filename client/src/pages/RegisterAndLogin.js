@@ -29,11 +29,12 @@ const RegisterAndLogin = () =>  {
             email: emailReg,
             password: passwordReg
         }).then((response) => {
-            console.log(response.data.data.email, response.data.data.id_role);
+            console.log(response.data);
             localStorage.setItem('email', response.data.data.email);
             localStorage.setItem('role', response.data.data.id_role);
             localStorage.setItem('first_name', response.data.data.first_name);
             localStorage.setItem('last_name', response.data.data.last_name);
+            localStorage.setItem('jwt', response.data.token);
             // if (response.data.data.id_role === undefined) {
             //   alert("Wrong email or password, please try again")
             // } else
@@ -43,7 +44,7 @@ const RegisterAndLogin = () =>  {
               window.location = "/author"
             }
         }).catch(function(err) {
-            window.location = "/index"
+            window.location = "/"
         });
     }
 
