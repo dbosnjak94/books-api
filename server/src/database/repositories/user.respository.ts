@@ -52,4 +52,11 @@ export class UserRepository implements IUserRepository {
 
         return result ? result[0] : false;
     }
+
+    async getAllUsers() {
+        const result: any[] = await connection.query(
+            `SELECT * FROM user`
+        )
+        return result.length ? result[0] : null;
+    }
 }
