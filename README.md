@@ -63,6 +63,4 @@ To start the client in your web browser visit: http://localhost:3000
 ###Swagger-UI
 To visit Swagger endpoint documentation visit:  http://localhost:3001/api/api-docs#
 
-###Postman 
-Postman collection can also be found in folder books-api/postman
 
