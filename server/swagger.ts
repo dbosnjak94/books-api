@@ -455,7 +455,7 @@ const responses = {
           created_at: "2022-01-13 10:49:48",
           updated_at: null
         },
-    }
+    },
   },
   addBook: {
     example: {

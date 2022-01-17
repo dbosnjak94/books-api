@@ -44,6 +44,16 @@ which can be found in folder books-api/sql-script.
 
 After that, you need to start server and client side of the app separately.
 
+###Before you can start the project, you need to create .env in book-api/server folder and fill it with necessary data:</br>
+.env template:</br>
+PORT=3001</br>
+DB_HOST= *your database local host*</br>
+DB_PORT=*your database local port*</br>
+DB_USER=*your databse local user*</br>
+DB_PASSWORD=*your databse local password*</br>
+DB_DATABASE=library</br>
+DB_SALT_ROUNDS=10
+
 Starting client-side:
 ```
 $ cd client
