@@ -70,7 +70,18 @@ $ npm run start
 ###Client-side URL
 To start the client in your web browser visit: http://localhost:3000
 
+All users have identical password: "Password1"</br>
+To login to Admin dashboard you can use:</br>
+mail: dominik.bosnjak94@gmail </br>
+password: Password1 </br>
+
+To login to Author dashboard you can use:</br>
+mail: frank.herbert@gmail.com </br>
+password: Password1 </br>
+
 ###Swagger-UI
 To visit Swagger endpoint documentation visit:  http://localhost:3001/api/api-docs#
+
+
 
 
