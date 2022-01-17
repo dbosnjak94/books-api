@@ -1,4 +1,4 @@
-#Books & Authors - REST API and Client
+##Books & Authors - REST API and Client
 
 ## Table of contents
 * [General info](#general-info)
