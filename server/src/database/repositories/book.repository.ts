@@ -1,10 +1,5 @@
 import { IBookRepository } from "../../api/book/interfaces";
-import {
-  IBook,
-  IListOfBooks,
-  IListOfBooksAndAuthors,
-} from "../models/book.model";
-import { BookDto } from "../../dto/book.dto";
+import { IBook, IListOfBooksAndAuthors } from "../models/book.model";
 import { connection } from "../index";
 
 export class BookRepository implements IBookRepository {
@@ -45,17 +40,19 @@ export class BookRepository implements IBookRepository {
     return Promise.resolve(undefined);
   }
 
-  async getAllBooksAndAuthors(): Promise<[IBook]> {
+  async getAllBooksAndAuthors(): Promise<IListOfBooksAndAuthors[]> {
     let result: any[] = await connection.query(
       `SELECT id_book, user.first_name, user.last_name, book_name 
                     FROM book
                     JOIN user ON book.id_user = user.id_user;`
     );
 
+    console.log(result);
+
     return result.length ? result[0] : null;
   }
 
-  async getBooksByAuthor(id_user): Promise<[IBook]> {
+  async getBooksByAuthor(id_user): Promise<IBook[]> {
     let result: any[] = await connection.query(
       `SELECT id_book, book.id_user, book_name 
                     FROM book
@@ -63,6 +60,8 @@ export class BookRepository implements IBookRepository {
                     where user.id_user = ?;`,
       id_user
     );
+
+    console.log(result);
 
     return result.length ? result[0] : null;
   }

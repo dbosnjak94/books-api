@@ -1,31 +1,46 @@
-import {Request, Response, NextFunction} from "express";
-import {BookDto} from '../../dto/book.dto';
-import {IBook, IListOfBooks, IListOfBooksAndAuthors} from '../../database/models/book.model';
+import { Request, Response, NextFunction } from "express";
+import {
+  BookDto,
+  ListOfBooksAndAuthorsDto,
+  ListOfBooksDto,
+} from "../../dto/book.dto";
+import {
+  IBook,
+  IListOfBooksAndAuthors,
+} from "../../database/models/book.model";
 
 export interface IBookController {
-    addBook(req: Request, res: Response, next: NextFunction): Promise<BookDto>;
-    editBook(req: Request, res: Response, next: NextFunction): Promise<BookDto>;
-    deleteBook(req: Request, res: Response, next: NextFunction): Promise<BookDto>;
-    getAllBooksAndAuthors(req: Request, res: Response, next: NextFunction): Promise<IListOfBooksAndAuthors>;
-    getBooksByAuthor(req: Request, res: Response, next: NextFunction): Promise<IListOfBooks>;
+  addBook(req: Request, res: Response, next: NextFunction): Promise<{}>;
+  editBook(req: Request, res: Response, next: NextFunction): Promise<{}>;
+  deleteBook(req: Request, res: Response, next: NextFunction): Promise<{}>;
+  getAllBooksAndAuthors(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<{}>;
+  getBooksByAuthor(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<{}>;
 }
 
 export interface IBookService {
-    addBook(req: Request, res: Response): Promise<BookDto>;
-    editBook(req: Request, res: Response): Promise<BookDto>;
-    deleteBook(req: Request, res: Response): Promise<BookDto>;
-    getAllBooksAndAuthors(req: Request, res: Response): Promise<[IListOfBooksAndAuthors]>;
-    getBooksByAuthor(req: Request, res: Response): Promise<[IListOfBooks]>;
+  addBook(req: Request, res: Response): Promise<BookDto>;
+  editBook(req: Request, res: Response): Promise<BookDto>;
+  deleteBook(req: Request, res: Response): Promise<BookDto>;
+  getAllBooksAndAuthors(
+    req: Request,
+    res: Response
+  ): Promise<ListOfBooksAndAuthorsDto>;
+  getBooksByAuthor(req: Request, res: Response): Promise<ListOfBooksDto>;
 }
 
 export interface IBookRepository {
-    addBook(book: IBook): Promise<IBook>;
-    editBook(book: IBook): Promise<IBook>;
-    deleteBook(id_book);
-    getBookById(id_book): Promise<IBook>;
-    getAllBooksAndAuthors(): Promise<any[]>;
-    getBooksByAuthor(id_user): Promise<[IBook]>;
+  addBook(book: IBook): Promise<IBook>;
+  editBook(book: IBook): Promise<IBook>;
+  deleteBook(id_book);
+  getBookById(id_book): Promise<IBook>;
+  getAllBooksAndAuthors(): Promise<IListOfBooksAndAuthors[]>;
+  getBooksByAuthor(id_user): Promise<IBook[]>;
 }
-
-
-

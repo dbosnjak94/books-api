@@ -7,7 +7,7 @@ import { IBookController, IBookRepository, IBookService } from "./interfaces";
 import { BookDto } from "../../dto/book.dto";
 import { BookService } from "./service";
 import {
-  IListOfBooks,
+  IBook,
   IListOfBooksAndAuthors,
 } from "../../database/models/book.model";
 
@@ -16,11 +16,7 @@ const bookRepository: IBookRepository = new BookRepository();
 const bookService: IBookService = new BookService(bookRepository);
 
 export class BookController implements IBookController {
-  async addBook(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<BookDto> {
+  async addBook(req: Request, res: Response, next: NextFunction): Promise<{}> {
     try {
       let book = await bookService.addBook(req, res);
       return res.json(book);
@@ -29,11 +25,7 @@ export class BookController implements IBookController {
     }
   }
 
-  async editBook(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<BookDto> {
+  async editBook(req: Request, res: Response, next: NextFunction): Promise<{}> {
     try {
       let book = await bookService.editBook(req, res);
       return res.json(book);
@@ -46,7 +38,7 @@ export class BookController implements IBookController {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<BookDto> {
+  ): Promise<{}> {
     try {
       let deletedBook = await bookService.deleteBook(req, res);
       return res.json(deletedBook);
@@ -59,7 +51,7 @@ export class BookController implements IBookController {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<IListOfBooksAndAuthors> {
+  ): Promise<{}> {
     try {
       let listOfBookAndAuthors = await bookService.getAllBooksAndAuthors(
         req,
@@ -75,7 +67,7 @@ export class BookController implements IBookController {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<IListOfBooks> {
+  ): Promise<{}> {
     try {
       let listOfBooks = await bookService.getBooksByAuthor(req, res);
       return res.json(listOfBooks);

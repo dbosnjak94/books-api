@@ -12,11 +12,7 @@ const userRepository: IUserRepository = new UserRepository();
 const userService: IUserService = new UserService(userRepository);
 
 export class UserController implements IUserController {
-  async addUser(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<UserDto> {
+  async addUser(req: Request, res: Response, next: NextFunction): Promise<{}> {
     try {
       let user = await userService.addUser(req, res);
       return res.json(user);
@@ -25,11 +21,7 @@ export class UserController implements IUserController {
     }
   }
 
-  async editUser(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<UserDto> {
+  async editUser(req: Request, res: Response, next: NextFunction): Promise<{}> {
     try {
       let user = await userService.editUser(req, res);
       return res.json(user);
@@ -42,7 +34,7 @@ export class UserController implements IUserController {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<UserDto> {
+  ): Promise<{}> {
     try {
       let deletedUser = await userService.deleteUser(req, res);
       return res.json(deletedUser);

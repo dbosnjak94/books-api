@@ -1,6 +1,19 @@
-import {IBook} from '../database/models/book.model';
+import { IBook, IListOfBooksAndAuthors } from "../database/models/book.model";
 
 export class BookDto {
-    data?: IBook;
-    message?: string;
+  status: number;
+  data?: IBook;
+  message?: string;
+}
+
+export class ListOfBooksAndAuthorsDto {
+  status: number;
+  data?: IListOfBooksAndAuthors[];
+  message?: string;
+}
+
+export class ListOfBooksDto {
+  status: number;
+  data?: IBook[];
+  message?: string;
 }

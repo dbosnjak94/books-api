@@ -11,10 +11,10 @@ const AuthorDashboard = () => {
     const getAllBooksAndAuthors = async () => {
         await axios
             .get("http://localhost:3001/api/book/getAllBooksAndAuthors")
-            .then((response) =>
-                //console.log(response.data.listOfBooksAndAuthors)
-                setListOfBooksAndAuthors(response.data.listOfBooksAndAuthors)
-            )
+            .then((response) => {
+                console.log(response.data)
+                setListOfBooksAndAuthors(response.data.data)
+            })
             .catch(function (err) {
                 console.log(err.message)
             })

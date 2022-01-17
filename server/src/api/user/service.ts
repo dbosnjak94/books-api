@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { IUserRepository, IUserService } from "../user/interfaces";
-import { UserDto } from "../../dto/user.dto";
+import { ListOfUsersDto, UserDto } from "../../dto/user.dto";
 import { IUser } from "../../database/models/user.model";
 import { hashPassword } from "../../utils/bcrypt";
 import { generateToken } from "../../utils/jwtGenerator";
+import { StatusCodes } from "../../statusCodes/statusCodes";
 
 export class UserService implements IUserService {
   constructor(private userRepository: IUserRepository) {}
@@ -12,10 +13,10 @@ export class UserService implements IUserService {
     try {
       const role: number = req.body.user.role;
       let { email, password, first_name, last_name } = req.body;
-      console.log(email, password, first_name, last_name);
 
       if (role != 1) {
         return {
+          status: StatusCodes.UNAUTHORIZED,
           message:
             "User doesn't have permission to add new author to the database",
         };
@@ -24,11 +25,11 @@ export class UserService implements IUserService {
       let user: IUser = await this.userRepository.getUserByEmail(email);
       if (user) {
         return {
+          status: StatusCodes.NOT_ACCEPTABLE,
+          data: user,
           message: "User already Exists",
         };
       }
-
-      console.log(email, password, first_name, last_name);
 
       user = await this.userRepository.addUser({
         email,
@@ -37,19 +38,14 @@ export class UserService implements IUserService {
         last_name,
       });
       delete user.password;
-      const jwt = generateToken(user);
-      if (!jwt) {
-        return { message: jwt.message };
-      }
       return {
+        status: StatusCodes.OK,
         data: user,
-        token: jwt.toString(),
         message: "New author has been created.",
       };
     } catch (err) {
       return {
-        data: null,
-        token: "",
+        status: StatusCodes.SERVER_ERROR,
         message: err.message,
       };
     }
@@ -63,6 +59,7 @@ export class UserService implements IUserService {
       console.log(id_user, email, first_name, last_name);
       if (role != 1) {
         return {
+          status: StatusCodes.UNAUTHORIZED,
           message: "User doesn't have permission to edit Author",
         };
       }
@@ -72,15 +69,14 @@ export class UserService implements IUserService {
         first_name,
         last_name,
       });
-      console.table(user);
       return {
+        status: StatusCodes.OK,
         data: user,
         message: "Author info has been edited.",
       };
     } catch (err) {
       return {
-        data: null,
-        token: "",
+        status: StatusCodes.SERVER_ERROR,
         message: err.message,
       };
     }
@@ -93,49 +89,55 @@ export class UserService implements IUserService {
       console.log(id_user);
       if (role != 1) {
         return {
+          status: StatusCodes.UNAUTHORIZED,
           message:
             "User doesn't have permission to delete Author form the database",
         };
       }
       let deletedUser = await this.userRepository.deleteUser({ id_user });
 
-      console.log(deletedUser);
-
       if (!deletedUser) {
         return {
-          data: null,
+          status: StatusCodes.UNPROCESSABLE,
+          data: deletedUser,
           token: "",
           message: "Author cannot be deleted",
         };
       }
       return {
-        data: null,
+        status: StatusCodes.OK,
+        data: deletedUser,
         token: "",
         message: "Author has been deleted",
       };
     } catch (err) {
       return {
-        data: null,
-        token: "",
+        status: StatusCodes.SERVER_ERROR,
         message: err.message,
       };
     }
   }
-  async getAllUsers(req: Request, res: Response) {
+
+  async getAllUsers(req: Request, res: Response): Promise<ListOfUsersDto> {
     try {
       const role: number = req.body.user.role;
       if (role != 1) {
         return {
+          status: StatusCodes.UNAUTHORIZED,
           message: "User doesn't have permission to get list of all Authors",
         };
       }
       let listOfUsers = await this.userRepository.getAllUsers();
       return {
+        status: StatusCodes.OK,
         data: listOfUsers,
         message: "List of all users",
       };
     } catch (err) {
-      return err.message;
+      return {
+        status: StatusCodes.SERVER_ERROR,
+        message: err.message,
+      };
     }
   }
 }

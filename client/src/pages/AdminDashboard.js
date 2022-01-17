@@ -91,8 +91,14 @@ const AdminDashboard = () => {
                 }
             )
             .then((response) => {
-                console.log(response)
-                window.location.reload(false)
+                console.log(response.data.status)
+                if (response.data.status === 406) {
+                    alert(
+                        "User with current email already exists, please try another email"
+                    )
+                } else if (response.data.status === 200) {
+                    window.location.reload(false)
+                }
             })
             .catch(function (err) {
                 alert(err.message)

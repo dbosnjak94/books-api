@@ -1,87 +1,96 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 
-import { UserDto } from '../../dto/user.dto';
-import { IAuthRepository, IAuthService } from './interfaces';
-import { hashPassword, comparePassword } from '../../utils/bcrypt';
-import { generateToken } from '../../utils/jwtGenerator';
-import { IUser } from '../../database/models/user.model';
+import { UserDto } from "../../dto/user.dto";
+import { IAuthRepository, IAuthService } from "./interfaces";
+import { hashPassword, comparePassword } from "../../utils/bcrypt";
+import { generateToken } from "../../utils/jwtGenerator";
+import { IUser } from "../../database/models/user.model";
+import { StatusCodes } from "../../statusCodes/statusCodes";
 
 export class AuthService implements IAuthService {
-    constructor(private authRepository: IAuthRepository) {}
+  constructor(private authRepository: IAuthRepository) {}
 
-    async signUp(req: Request, res: Response): Promise<UserDto> {
-        try {
-            let { first_name, last_name, email, password } = req.body;
-            password = await hashPassword(password);
-            let user: IUser = await this.authRepository.getUserByEmail(email);
+  async signUp(req: Request, res: Response): Promise<UserDto> {
+    try {
+      let { first_name, last_name, email, password } = req.body;
+      password = await hashPassword(password);
+      let user: IUser = await this.authRepository.getUserByEmail(email);
 
-            if (user) {
-                return {
-                    message: 'User already exists'
-                };
-            }
+      if (user) {
+        return {
+          status: StatusCodes.CONFILCT,
+          message: "User already exists",
+        };
+      }
 
-            user = await this.authRepository.createUser({
-                first_name,
-                last_name,
-                email,
-                password
-            });
+      user = await this.authRepository.createUser({
+        first_name,
+        last_name,
+        email,
+        password,
+      });
 
-            const userInfo: IUser = await this.authRepository.getUserByEmail(email);
+      const userInfo: IUser = await this.authRepository.getUserByEmail(email);
 
-            delete userInfo.password;
-            const jwt = generateToken(userInfo);
+      delete userInfo.password;
+      const jwt = generateToken(userInfo);
 
-            if(!jwt) {
-                return {
-                    message: jwt.message
-                }
-            }
+      if (!jwt) {
+        return {
+          status: StatusCodes.UNPROCESSABLE,
+          message: jwt.message,
+        };
+      }
 
-            return {
-                data: userInfo,
-                token: jwt.toString(),
-                message: 'New user has been created'
-            };
-        } catch (err) {
-            return err.message;
-        }
-
+      return {
+        status: StatusCodes.OK,
+        data: userInfo,
+        token: jwt.toString(),
+        message: "New user has been created",
+      };
+    } catch (err) {
+      return {
+        status: StatusCodes.SERVER_ERROR,
+        message: err.message,
+      };
     }
+  }
 
-    async signIn(req: Request, res: Response): Promise<UserDto> {
-        try {
-            let { email, password } = req.body;
+  async signIn(req: Request, res: Response): Promise<UserDto> {
+    try {
+      let { email, password } = req.body;
 
-            const user: IUser = await this.authRepository.getUserByEmail(email);
+      const user: IUser = await this.authRepository.getUserByEmail(email);
 
-            if (!user) {
-                return {
-                    message: 'Email does not exist, please try again'
-                };
-            }
+      if (!user) {
+        return {
+          status: StatusCodes.UNPROCESSABLE,
+          message: "Email does not exist, please try again",
+        };
+      }
 
-            const token = generateToken(user);
+      const token = generateToken(user);
 
-            let match = await comparePassword(password, user.password);
+      let match = await comparePassword(password, user.password);
 
-            if (!match) {
-                return {
-                    message: 'Wrong password, please try again'
-                };
-            }
+      if (!match) {
+        return {
+          status: StatusCodes.FORBIDDEN,
+          message: "Wrong password, please try again",
+        };
+      }
 
-            return {
-                data: user,
-                token: token.toString(),
-                message: 'User is logged in'
-            };
-        } catch (err) {
-            return err.message;
-        }
-
+      return {
+        status: StatusCodes.OK,
+        data: user,
+        token: token.toString(),
+        message: "User is logged in",
+      };
+    } catch (err) {
+      return {
+        status: StatusCodes.SERVER_ERROR,
+        message: err.message,
+      };
     }
-
-
+  }
 }

@@ -20,6 +20,28 @@ const RegisterAndLogin = () => {
             })
             .then((response) => {
                 console.log(response)
+                if (response.data.status === 409) {
+                    alert(
+                        "User with this mail already exists, please try different email!"
+                    )
+                } else if (response.data.status === 200) {
+                    localStorage.setItem("email", response.data.data.email)
+                    localStorage.setItem("role", response.data.data.id_role)
+                    localStorage.setItem(
+                        "first_name",
+                        response.data.data.first_name
+                    )
+                    localStorage.setItem(
+                        "last_name",
+                        response.data.data.last_name
+                    )
+                    localStorage.setItem("jwt", response.data.data.token)
+                    localStorage.setItem("id_user", response.data.data.id_user)
+                    window.location = "/author"
+                }
+            })
+            .catch(function (err) {
+                console.log(err.message)
             })
     }
 
@@ -31,26 +53,48 @@ const RegisterAndLogin = () => {
             })
             .then((response) => {
                 console.log(response.data)
-                localStorage.setItem("email", response.data.data.email)
-                localStorage.setItem("role", response.data.data.id_role)
-                localStorage.setItem(
-                    "first_name",
-                    response.data.data.first_name
-                )
-                localStorage.setItem("last_name", response.data.data.last_name)
-                localStorage.setItem("jwt", response.data.token)
-                localStorage.setItem("id_user", response.data.data.id_user)
-                // if (response.data.data.id_role === undefined) {
-                //   alert("Wrong email or password, please try again")
-                // } else
-                if (response.data.data.id_role === 1) {
-                    window.location = "/admin"
-                } else {
-                    window.location = "/author"
+
+                console.log()
+
+                if (response.data.status === 403) {
+                    alert("Wrong email or password, please try again")
                 }
-            })
-            .catch(function (err) {
-                window.location = "/"
+
+                if (
+                    response.data.data.id_role === 1 &&
+                    response.data.status === 200
+                ) {
+                    window.location = "/admin"
+                    localStorage.setItem("email", response.data.data.email)
+                    localStorage.setItem("role", response.data.data.id_role)
+                    localStorage.setItem(
+                        "first_name",
+                        response.data.data.first_name
+                    )
+                    localStorage.setItem(
+                        "last_name",
+                        response.data.data.last_name
+                    )
+                    localStorage.setItem("jwt", response.data.token)
+                    localStorage.setItem("id_user", response.data.data.id_user)
+                } else if (
+                    response.data.data.id_role === 2 &&
+                    response.data.status === 200
+                ) {
+                    window.location = "/author"
+                    localStorage.setItem("email", response.data.data.email)
+                    localStorage.setItem("role", response.data.data.id_role)
+                    localStorage.setItem(
+                        "first_name",
+                        response.data.data.first_name
+                    )
+                    localStorage.setItem(
+                        "last_name",
+                        response.data.data.last_name
+                    )
+                    localStorage.setItem("jwt", response.data.token)
+                    localStorage.setItem("id_user", response.data.data.id_user)
+                }
             })
     }
 

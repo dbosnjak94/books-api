@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import { IBookRepository, IBookService } from "../book/interfaces";
-import { BookDto } from "../../dto/book.dto";
 import {
-  IBook,
-  IListOfBooks,
-  IListOfBooksAndAuthors,
-} from "../../database/models/book.model";
+  BookDto,
+  ListOfBooksDto,
+  ListOfBooksAndAuthorsDto,
+} from "../../dto/book.dto";
+import { IBook } from "../../database/models/book.model";
+import { StatusCodes } from "../../statusCodes/statusCodes";
 
 export class BookService implements IBookService {
   constructor(private bookRepository: IBookRepository) {}
@@ -18,11 +19,13 @@ export class BookService implements IBookService {
         book_name,
       });
       return {
+        status: StatusCodes.OK,
         data: book,
         message: "New Book has been inserted to the database",
       };
     } catch (err) {
       return {
+        status: StatusCodes.SERVER_ERROR,
         message: err.message,
       };
     }
@@ -35,11 +38,13 @@ export class BookService implements IBookService {
       let book = await this.bookRepository.editBook({ id_book, book_name });
 
       return {
+        status: StatusCodes.OK,
         data: book,
         message: "Book profile has been updated",
       };
     } catch (err) {
       return {
+        status: StatusCodes.SERVER_ERROR,
         message: err.message,
       };
     }
@@ -57,15 +62,18 @@ export class BookService implements IBookService {
 
       if (deletedBook[0].affectedRows === 0) {
         return {
+          status: StatusCodes.UNPROCESSABLE,
           message: "Book cannot be deleted from the database",
         };
       }
 
       return {
+        status: StatusCodes.OK,
         message: "Book has been deleted from the database",
       };
     } catch (err) {
       return {
+        status: StatusCodes.SERVER_ERROR,
         message: err.message,
       };
     }
@@ -74,33 +82,38 @@ export class BookService implements IBookService {
   async getAllBooksAndAuthors(
     req: Request,
     res: Response
-  ): Promise<[IListOfBooksAndAuthors]> {
+  ): Promise<ListOfBooksAndAuthorsDto> {
     try {
       let listOfBooksAndAuthors =
         await this.bookRepository.getAllBooksAndAuthors();
 
       return {
-        listOfBooksAndAuthors,
+        status: StatusCodes.OK,
+        data: listOfBooksAndAuthors,
+        message: "Book has been deleted from the database",
       };
     } catch (err) {
       return {
-        data: null,
+        status: StatusCodes.SERVER_ERROR,
         message: err.message,
       };
     }
   }
 
-  async getBooksByAuthor(req: Request, res: Response): Promise<IListOfBooks[]> {
+  async getBooksByAuthor(req: Request, res: Response): Promise<ListOfBooksDto> {
     try {
       const id_user: any = req.params.idUser;
 
       let listOfBooks = await this.bookRepository.getBooksByAuthor(id_user);
 
       return {
-        listOfBooks,
+        status: StatusCodes.OK,
+        data: listOfBooks,
+        message: "Book has been deleted from the database",
       };
     } catch (err) {
       return {
+        status: StatusCodes.SERVER_ERROR,
         message: err.message,
       };
     }

@@ -33,7 +33,7 @@ function AuthorSection() {
             .get(`http://localhost:3001/api/book/getBooksByAuthor/${id_user}`)
             .then((response) => {
                 console.log(response.data)
-                setListOfBooks(response.data.listOfBooks)
+                setListOfBooks(response.data.data)
             })
             .catch(function (err) {
                 console.log(err.message)
