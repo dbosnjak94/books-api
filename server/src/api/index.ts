@@ -1,23 +1,23 @@
-'use strict';
+"use strict";
 
-import express from 'express';
-import swaggerUI from 'swagger-ui-express';
-import { generateDocumentation } from '../../swagger';
+import express from "express";
+import swaggerUI from "swagger-ui-express";
+import { generateDocumentation } from "../../swagger";
 
-import auth from './auth/router';
-import user from './user/router';
-import book from './book/router';
+import auth from "./auth/router";
+import user from "./user/router";
+import book from "./book/router";
 
 const router = express.Router();
-router.use('/', swaggerUI.serve);
-router.use('/auth', auth);
-router.use('/user', user);
-router.use('/book', book);
+router.use("/", swaggerUI.serve);
+router.use("/auth", auth);
+router.use("/user", user);
+router.use("/book", book);
 
 const documentation = generateDocumentation();
-router.get('/api-docs', swaggerUI.setup(documentation));
-router.get('/swagger', (_req: any, res: any) => {
-    return res.send(JSON.stringify(documentation), null, 2);
+router.get("/api-docs", swaggerUI.setup(documentation));
+router.get("/swagger", (_req: any, res: any) => {
+  return res.send(JSON.stringify(documentation), null, 2);
 });
 
 export default router;
