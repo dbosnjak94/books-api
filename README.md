@@ -70,6 +70,7 @@ $ npm run start
 ###Client-side URL
 To start the client in your web browser visit: http://localhost:3000
 
+###Authorization
 All users have identical password: "Password1"</br>
 To login to Admin dashboard you can use:</br>
 mail: dominik.bosnjak94@gmail </br>
