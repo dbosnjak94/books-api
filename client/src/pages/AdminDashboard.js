@@ -13,6 +13,12 @@ const AdminDashboard = () => {
         isOpen: false,
         selected: {},
     })
+    const [createAuthor, setCreateAuthor] = useState({
+        email: "",
+        password: "",
+        first_name: "",
+        last_name: "",
+    })
 
     const jwt = localStorage.getItem("jwt")
     axios.defaults.headers.jwt = jwt
@@ -51,6 +57,32 @@ const AdminDashboard = () => {
                     data: {
                         id_user: data.id_user,
                     },
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json;charset=UTF-8",
+                    },
+                }
+            )
+            .then((response) => {
+                console.log(response)
+                window.location.reload(false)
+            })
+            .catch(function (err) {
+                alert(err.message)
+            })
+    }
+
+    const addAuthor = () => {
+        console.log(createAuthor)
+        axios
+            .post(
+                "http://localhost:3001/api/user/addUser",
+                {
+                    email: createAuthor.email,
+                    password: createAuthor.password,
+                    first_name: createAuthor.first_name,
+                    last_name: createAuthor.last_name,
                 },
                 {
                     headers: {
@@ -113,6 +145,8 @@ const AdminDashboard = () => {
                                                 >
                                                     Edit
                                                 </Button>
+                                            </td>
+                                            <td>
                                                 <Button
                                                     variant="danger"
                                                     onClick={() =>
@@ -130,7 +164,75 @@ const AdminDashboard = () => {
                     </Col>
                     <Col xs={4} md={4}>
                         <h1 className={styles.text}>Add User</h1>
-                        {/*// TODO: add register*/}
+                        <div className={styles.panel}>
+                            <Form.Group
+                                className="mb-2 mt-2"
+                                controlId="exampleForm.ControlInput1"
+                            >
+                                <Form.Label className="mb-1 mt-4">
+                                    <p className={styles.text}>Email</p>
+                                </Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="email"
+                                    onChange={(e) => {
+                                        const { name, value } = e.target
+                                        setCreateAuthor((prevState) => ({
+                                            ...prevState,
+                                            [name]: value,
+                                        }))
+                                    }}
+                                />
+                                <Form.Label className="mb-1 mt-3">
+                                    <p className={styles.text}>Password</p>
+                                </Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    name="password"
+                                    onChange={(e) => {
+                                        const { name, value } = e.target
+                                        setCreateAuthor((prevState) => ({
+                                            ...prevState,
+                                            [name]: value,
+                                        }))
+                                    }}
+                                />
+                                <Form.Label className="mb-1 mt-3">
+                                    <p className={styles.text}>First Name</p>
+                                </Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="first_name"
+                                    onChange={(e) => {
+                                        const { name, value } = e.target
+                                        setCreateAuthor((prevState) => ({
+                                            ...prevState,
+                                            [name]: value,
+                                        }))
+                                    }}
+                                />
+                                <Form.Label className="mb-1 mt-3">
+                                    <p className={styles.text}>Last Name</p>
+                                </Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="last_name"
+                                    onChange={(e) => {
+                                        const { name, value } = e.target
+                                        setCreateAuthor((prevState) => ({
+                                            ...prevState,
+                                            [name]: value,
+                                        }))
+                                    }}
+                                />
+                                <Button
+                                    onClick={addAuthor}
+                                    className={styles.button}
+                                >
+                                    <p className={styles.text}>Add Author</p>
+                                </Button>
+                            </Form.Group>
+                        </div>
                     </Col>
                 </Row>
             </div>

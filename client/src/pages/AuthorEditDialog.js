@@ -1,11 +1,11 @@
 import axios from "axios"
-import React from "react"
+import React, { useState } from "react"
 import { Modal, Button, Form } from "react-bootstrap"
 
 export const AuthorEditDialog = (props) => {
     const { isOpen, value, onClose } = props
 
-    const [user, setUser] = React.useState(value)
+    const [user, setUser] = useState(value)
 
     const editAuthor = () => {
         axios

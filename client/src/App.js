@@ -1,24 +1,29 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import RegisterAndLogin from './pages/RegisterAndLogin.js';
-import AdminDashboard from './pages/AdminDashboard';
-import AuthorDashboard from './pages/AuthorDashboard';
-import './assets/styles/App.css';
+import React from "react"
+import "bootstrap/dist/css/bootstrap.min.css"
+import RegisterAndLogin from "./pages/RegisterAndLogin.js"
+import AdminDashboard from "./pages/AdminDashboard"
+import AuthorDashboard from "./pages/AuthorDashboard"
+import AuthorSection from "./pages/AuthorSection"
+import "./assets/styles/App.css"
 
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 
 function App() {
-  return (
-      <Router>
-        <div>
-            <Routes>
-                <Route exact path={"/"} element={<RegisterAndLogin/>}/>
-                <Route path={"/admin"} element={<AdminDashboard/>}/>
-                <Route path={"/author"} element={<AuthorDashboard/>}/>
-            </Routes>
-        </div>
-      </Router>
-  );
+    return (
+        <Router>
+            <div>
+                <Routes>
+                    <Route exact path={"/"} element={<RegisterAndLogin />} />
+                    <Route path={"/admin"} element={<AdminDashboard />} />
+                    <Route path={"/author"} element={<AuthorDashboard />} />
+                    <Route
+                        path={"/authorSection"}
+                        element={<AuthorSection />}
+                    />
+                </Routes>
+            </div>
+        </Router>
+    )
 }
 
-export default App;
+export default App
