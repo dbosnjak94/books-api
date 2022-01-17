@@ -169,8 +169,8 @@ const AdminDashboard = () => {
                         </ReactBootStrap.Table>
                     </Col>
                     <Col xs={4} md={4}>
-                        <h1 className={styles.text}>Add User</h1>
                         <div className={styles.panel}>
+                            <h1 className={styles.text}>Add User</h1>
                             <Form.Group
                                 className="mb-2 mt-2"
                                 controlId="exampleForm.ControlInput1"

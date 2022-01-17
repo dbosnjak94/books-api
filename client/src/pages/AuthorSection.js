@@ -4,9 +4,9 @@ import React, { useState, useEffect } from "react"
 import axios from "axios"
 import * as ReactBootStrap from "react-bootstrap"
 import { Button, Row, Col, Form } from "react-bootstrap"
-import styles from "../assets/styles/adminDashboard.module.css"
-import { AuthorEditDialog } from "./AuthorEditDialog"
 import { BookEditDialog } from "./BookEditDialog"
+
+import styles from "../assets/styles/authorSection.module.css"
 
 function AuthorSection() {
     const id_user = localStorage.getItem("id_user")
@@ -143,8 +143,8 @@ function AuthorSection() {
                     </ReactBootStrap.Table>
                 </Col>
                 <Col xs={8} md={8} className={styles.list}>
-                    <h1 className={styles.text}>Add Book</h1>
                     <div className={styles.panel}>
+                        <h1 className={styles.text}>Add Book</h1>
                         <Form.Group
                             className="mb-2 mt-2"
                             controlId="exampleForm.ControlInput1"
