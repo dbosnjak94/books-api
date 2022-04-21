@@ -83,6 +83,4 @@ password: Password1 </br>
 ###Swagger-UI
 To visit Swagger endpoint documentation visit:  http://localhost:3001/api/api-docs#
 
-
-
-
+V2
